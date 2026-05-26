@@ -146,8 +146,13 @@ export default function Profile() {
             Sair da conta
           </button>
 
-          <div className="text-center text-muted-foreground text-sm py-4">
-            Versão 1.0.0
+          <div className="text-center py-6">
+            <p className="text-muted-foreground text-sm mb-2">
+              Safe Spot
+            </p>
+            <p className="text-muted-foreground text-xs">
+              Versão 1.0.0
+            </p>
           </div>
         </div>
       </div>

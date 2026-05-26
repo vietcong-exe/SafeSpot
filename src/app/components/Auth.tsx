@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Heart, Mail, Lock, User } from 'lucide-react';
+import { Mail, Lock, User } from 'lucide-react';
 import { motion } from 'motion/react';
+import Logo from './Logo';
 
 interface AuthProps {
   onLogin: () => void;
@@ -29,8 +30,8 @@ export default function Auth({ onLogin }: AuthProps) {
           className="w-full max-w-md"
         >
           <div className="flex flex-col items-center mb-8">
-            <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-4">
-              <Heart size={40} className="text-primary" strokeWidth={1.5} />
+            <div className="mb-4">
+              <Logo size="lg" showText={true} />
             </div>
             <h1 className="text-foreground mb-2">
               {isLogin ? 'Bem-vindo de volta' : 'Criar conta'}

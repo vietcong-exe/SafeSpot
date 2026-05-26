@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { Heart, Sparkles, Calendar, TrendingUp, ChevronRight } from 'lucide-react';
+import { Sparkles, Calendar, TrendingUp, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import Logo from './Logo';
 
 interface OnboardingProps {
   onComplete: () => void;
@@ -13,28 +14,32 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
 
   const slides = [
     {
-      icon: Heart,
-      title: 'Bem-vindo ao seu espaço seguro',
-      description: 'Um lugar acolhedor para cuidar das suas emoções e cultivar o autocuidado no seu ritmo.',
+      icon: null,
+      title: 'Bem-vindo ao Safe Spot',
+      description: 'Seu espaço seguro para cuidar das suas emoções e cultivar o autocuidado no seu ritmo.',
       color: '#FFB6C1',
+      showLogo: true,
     },
     {
       icon: Sparkles,
       title: 'Acompanhe suas emoções',
       description: 'Registre como você se sente todos os dias de forma simples e rápida. Sem pressão, apenas acolhimento.',
       color: '#8B7FD9',
+      showLogo: false,
     },
     {
       icon: Calendar,
       title: 'Crie hábitos saudáveis',
       description: 'Pequenas pausas e práticas diárias que fazem diferença no seu bem-estar emocional.',
       color: '#7EC4CF',
+      showLogo: false,
     },
     {
       icon: TrendingUp,
       title: 'Entenda seus padrões',
       description: 'Visualize seus momentos e descubra o que influencia seu estado emocional ao longo do tempo.',
       color: '#A8D5BA',
+      showLogo: false,
     },
   ];
 
@@ -64,21 +69,27 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
             transition={{ duration: 0.4 }}
             className="flex flex-col items-center text-center max-w-md"
           >
-            <div
-              className="w-32 h-32 rounded-full flex items-center justify-center mb-8"
-              style={{ backgroundColor: `${slides[currentSlide].color}20` }}
-            >
-              {(() => {
-                const Icon = slides[currentSlide].icon;
-                return (
-                  <Icon
-                    size={64}
-                    strokeWidth={1.5}
-                    style={{ color: slides[currentSlide].color }}
-                  />
-                );
-              })()}
-            </div>
+            {slides[currentSlide].showLogo ? (
+              <div className="mb-8 flex justify-center">
+                <Logo size="lg" showText={false} />
+              </div>
+            ) : (
+              <div
+                className="w-32 h-32 rounded-full flex items-center justify-center mb-8"
+                style={{ backgroundColor: `${slides[currentSlide].color}20` }}
+              >
+                {slides[currentSlide].icon && (() => {
+                  const Icon = slides[currentSlide].icon;
+                  return (
+                    <Icon
+                      size={64}
+                      strokeWidth={1.5}
+                      style={{ color: slides[currentSlide].color }}
+                    />
+                  );
+                })()}
+              </div>
+            )}
 
             <h1 className="mb-4 text-foreground">
               {slides[currentSlide].title}
