@@ -45,6 +45,14 @@ export default function Profile() {
     },
   ];
 
+  const professionalMenuItem = {
+    icon: User,
+    title: 'Cadastre-se como Psicólogo',
+    description: 'Junte-se à nossa rede de profissionais',
+    onClick: () => navigate('/psychologist-signup'),
+    highlighted: true,
+  };
+
   return (
     <div className="min-h-full bg-background">
       <div className="px-6 py-8 max-w-lg mx-auto">
@@ -116,6 +124,24 @@ export default function Profile() {
           </div>
 
           <div className="space-y-2">
+            <button
+              onClick={professionalMenuItem.onClick}
+              className="w-full bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/30 rounded-2xl p-5 hover:shadow-md transition-all text-left"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center flex-shrink-0">
+                  <User size={24} className="text-primary" strokeWidth={1.5} />
+                </div>
+                <div className="flex-1">
+                  <h4 className="text-primary mb-1">{professionalMenuItem.title}</h4>
+                  <p className="text-muted-foreground text-sm">
+                    {professionalMenuItem.description}
+                  </p>
+                </div>
+                <ChevronRight size={20} className="text-primary flex-shrink-0" />
+              </div>
+            </button>
+
             {menuItems.map((item, index) => {
               const Icon = item.icon;
               return (

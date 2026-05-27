@@ -14,6 +14,9 @@ import NotificationSettings from './components/NotificationSettings';
 import NotificationManager from './components/NotificationManager';
 import Community from './components/Community';
 import AnonymousChat from './components/AnonymousChat';
+import PsychologistSignup from './components/PsychologistSignup';
+import FindPsychologist from './components/FindPsychologist';
+import PsychologistProfile from './components/PsychologistProfile';
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -188,6 +191,44 @@ export default function App() {
             element={
               isAuthenticated ? (
                 <AnonymousChat />
+              ) : (
+                <Navigate to="/auth" replace />
+              )
+            }
+          />
+
+          <Route
+            path="/psychologist-signup"
+            element={
+              isAuthenticated ? (
+                <PsychologistSignup />
+              ) : (
+                <Navigate to="/auth" replace />
+              )
+            }
+          />
+
+          <Route
+            path="/find-psychologist"
+            element={
+              isAuthenticated ? (
+                <div className="flex flex-col h-full">
+                  <div className="flex-1 overflow-auto pb-20">
+                    <FindPsychologist />
+                  </div>
+                  <Navigation />
+                </div>
+              ) : (
+                <Navigate to="/auth" replace />
+              )
+            }
+          />
+
+          <Route
+            path="/psychologist/:id"
+            element={
+              isAuthenticated ? (
+                <PsychologistProfile />
               ) : (
                 <Navigate to="/auth" replace />
               )

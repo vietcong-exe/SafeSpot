@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Heart, MessageCircle, Plus, Users, Sparkles, Send } from 'lucide-react';
+import { Heart, MessageCircle, Plus, Users, Sparkles, Send, User } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useNavigate } from 'react-router';
 import { toast } from 'sonner';
@@ -144,11 +144,24 @@ export default function Community() {
             </p>
           </button>
 
-          <div className="bg-card border border-border rounded-2xl p-4">
-            <Users size={28} className="text-primary mb-2" strokeWidth={1.5} />
-            <h4 className="text-foreground mb-1">Online</h4>
-            <p className="text-primary">342 pessoas</p>
-          </div>
+          <button
+            onClick={() => navigate('/find-psychologist')}
+            className="bg-gradient-to-br from-green-500/10 to-green-400/10 border border-green-500/20 rounded-2xl p-4 hover:shadow-md transition-all"
+          >
+            <User size={28} className="text-green-600 mb-2" strokeWidth={1.5} />
+            <h4 className="text-foreground mb-1">Psicólogos</h4>
+            <p className="text-muted-foreground text-sm">
+              Fale com profissionais
+            </p>
+          </button>
+        </div>
+
+        <div className="bg-card border border-border rounded-2xl p-4 mb-6">
+          <Users size={28} className="text-primary mb-2" strokeWidth={1.5} />
+          <h4 className="text-foreground mb-1">342 pessoas online</h4>
+          <p className="text-muted-foreground text-sm">
+            Na comunidade agora
+          </p>
         </div>
 
         <AnimatePresence mode="wait">
