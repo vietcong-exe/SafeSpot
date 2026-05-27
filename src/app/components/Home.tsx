@@ -1,23 +1,82 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { Wind, BookOpen, Sparkles, Heart, User, TrendingUp } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 type Mood = 'great' | 'good' | 'okay' | 'bad' | 'terrible' | null;
 
 export default function Home() {
   const navigate = useNavigate();
   const [selectedMood, setSelectedMood] = useState<Mood>(null);
+  const [savedMood, setSavedMood] = useState<Mood>(null);
 
   const moods = [
-    { id: 'great' as Mood, emoji: '😊', label: 'Ótimo' },
-    { id: 'good' as Mood, emoji: '😃', label: 'Bem' },
-    { id: 'okay' as Mood, emoji: '😐', label: 'Mais ou menos' },
-    { id: 'bad' as Mood, emoji: '😔', label: 'Mal' },
-    { id: 'terrible' as Mood, emoji: '😢', label: 'Muito mal' },
+    {
+      id: 'great' as Mood,
+      emoji: '😊',
+      label: 'Ótimo',
+      color: '#A8D5BA',
+      message: 'Que maravilha! Continue espalhando essa energia positiva! ✨'
+    },
+    {
+      id: 'good' as Mood,
+      emoji: '😃',
+      label: 'Bem',
+      color: '#7EC4CF',
+      message: 'Ótimo! Que bom saber que você está bem hoje! 🌟'
+    },
+    {
+      id: 'okay' as Mood,
+      emoji: '😐',
+      label: 'Mais ou menos',
+      color: '#FFD4A3',
+      message: 'Tudo bem ter dias assim. Seja gentil consigo mesmo. 🤗'
+    },
+    {
+      id: 'bad' as Mood,
+      emoji: '😔',
+      label: 'Mal',
+      color: '#FFB6C1',
+      message: 'Sinto muito que esteja passando por um momento difícil. Você é importante. 💙'
+    },
+    {
+      id: 'terrible' as Mood,
+      emoji: '😢',
+      label: 'Muito mal',
+      color: '#FF9BAA',
+      message: 'Sinto muito que esteja difícil. Você é importante e não está sozinho. ❤️'
+    },
   ];
+
+  useEffect(() => {
+    const today = new Date().toDateString();
+    const stored = localStorage.getItem('dailyMood');
+
+    if (stored) {
+      const data = JSON.parse(stored);
+      if (data.date === today) {
+        setSavedMood(data.mood);
+        setSelectedMood(data.mood);
+      }
+    }
+  }, []);
 
   const handleMoodSelect = (mood: Mood) => {
     setSelectedMood(mood);
+
+    const today = new Date().toDateString();
+    localStorage.setItem('dailyMood', JSON.stringify({
+      mood,
+      date: today,
+      timestamp: new Date().toISOString()
+    }));
+
+    setSavedMood(mood);
+  };
+
+  const getCurrentMessage = () => {
+    if (!selectedMood) return null;
+    return moods.find(m => m.id === selectedMood)?.message;
   };
 
   return (
@@ -40,7 +99,7 @@ export default function Home() {
 
         <div className="bg-card rounded-3xl p-6 mb-6 shadow-sm">
           <h3 className="text-foreground mb-4">Check-in do dia</h3>
-          <div className="flex justify-between gap-2">
+          <div className="flex justify-between gap-2 mb-4">
             {moods.map((mood) => {
               const isSelected = selectedMood === mood.id;
               return (
@@ -48,8 +107,12 @@ export default function Home() {
                   key={mood.id}
                   onClick={() => handleMoodSelect(mood.id)}
                   className={`flex flex-col items-center gap-2 p-3 rounded-2xl transition-all ${
-                    isSelected ? 'bg-muted scale-105' : 'hover:bg-muted/50'
+                    isSelected ? 'scale-105 ring-2 ring-offset-2' : 'hover:scale-102'
                   }`}
+                  style={{
+                    backgroundColor: `${mood.color}40`,
+                    ringColor: isSelected ? mood.color : 'transparent',
+                  }}
                 >
                   <span className="text-3xl">{mood.emoji}</span>
                   <span className="text-foreground text-xs text-center leading-tight">
@@ -59,6 +122,21 @@ export default function Home() {
               );
             })}
           </div>
+
+          <AnimatePresence>
+            {selectedMood && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl p-4 text-center"
+              >
+                <p className="text-foreground leading-relaxed">
+                  {getCurrentMessage()}
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         <div className="flex items-center justify-between mb-4">
